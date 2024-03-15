@@ -28,7 +28,7 @@ resource "github_branch_protection" "main_branch" {
   for_each            = local.repositories
   repository_id       = each.value
   pattern             = "main"
-  enforce_admins      = true
+  enforce_admins      = false
   allows_deletions    = false
   allows_force_pushes = false
 
