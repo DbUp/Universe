@@ -1,17 +1,5 @@
 locals {
-  repositories = toset([
-    "DbUp",
-    "dbup-firebird",
-    "dbup-mysql",
-    "dbup-oracle",
-    "dbup-postgresql",
-    "dbup-redshift",
-    "dbup-sqlanywhere",
-    "dbup-sqlce",
-    "dbup-sqlite",
-    "dbup-sqlite-mono",
-    "dbup-sqlserver",
-  ])
+  repositories = toset(split("\n", file("../AllProviders.txt") ))
 }
 
 
