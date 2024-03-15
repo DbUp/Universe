@@ -63,7 +63,7 @@ resource "github_branch_protection" "main_branch" {
 resource "github_branch_protection" "release_branches" {
   for_each            = local.repositories
   repository_id       = each.value
-  pattern             = "releases/**"
+  pattern             = "releases/*"
   enforce_admins      = true
   allows_deletions    = false
   allows_force_pushes = false
