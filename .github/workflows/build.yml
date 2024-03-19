@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
       DOTNET_NOLOGO: true
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Avoid pre-populating the NuGet package cache
       ASSENTNONINTERACTIVE: true
