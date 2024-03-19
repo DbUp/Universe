@@ -3,11 +3,13 @@ name: CI
 on:
   workflow_call:
 
+permissions:
+  packages: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
       DOTNET_NOLOGO: true
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Avoid pre-populating the NuGet package cache
       ASSENTNONINTERACTIVE: true
@@ -58,16 +60,20 @@ jobs:
         if: ${{ format('{0}', secrets.GITHUB_TOKEN) != '' && startsWith(github.repository, 'DbUp/') }}
         working-directory: artifacts
         run: dotnet nuget push *.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/DbUp/index.json"
-
-      - name: Push NuGet packages to NuGet ⬆️
-        if: ${{ steps.gitversion.outputs.preReleaseLabel == '' }}
-        working-directory: artifacts
-        run: dotnet nuget push *.nupkg --api-key ${{ secrets.NUGET_APIKEY }} --source https://api.nuget.org/v3/index.json
         
-      - name: Test Report 🧪
-        uses: dorny/test-reporter@v1
-        if: ${{ always() }}
+      # https://github.com/dorny/test-reporter#recommended-setup-for-public-repositories
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3 # upload test results
+        if: success() || failure() # run this step even if previous step failed
         with:
-          name: Tests
+          name: test-results
           path: artifacts/*.trx
-          reporter: dotnet-trx
+
+      - name: Create GitHub Release
+        if: ${{ (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && format('{0}', env.GITHUB_TOKEN) != '' }}
+        shell: pwsh
+        working-directory: artifacts
+        # Can't just use wildcard in this command due to https://github.com/cli/cli/issues/5099 so use Get-Item
+        run: gh release create --draft ${{ github.ref_name == 'main' && '' || '--prerelease' }}  --target ${{ github.ref_name }} --title $GitVersion_SemVer $GitVersion_SemVer (Get-Item dbup-core.*.nupkg)
+        
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
