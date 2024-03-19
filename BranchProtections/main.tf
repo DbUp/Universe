@@ -68,6 +68,6 @@ resource "github_branch_protection" "release_branches" {
 
   required_status_checks {
     strict   = false
-    contexts = ["build", "Unit Tests"]
+    contexts = ["build",  each.value == "DbUp" ? "Unit Tests" : "Tests"]
   }
 }
