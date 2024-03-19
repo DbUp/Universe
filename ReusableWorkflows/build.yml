@@ -5,11 +5,12 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest  # Use Ubuntu in v5.0
+    runs-on: ubuntu-latest
 
     env:
       DOTNET_NOLOGO: true
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Avoid pre-populating the NuGet package cache
+      ASSENTNONINTERACTIVE: true
 
     steps:
       - uses: actions/checkout@v3
@@ -32,7 +33,7 @@ jobs:
 
       - name: Display SemVer
         run: |
-            echo "SemVer: $env:GitVersion_SemVer"
+            echo "SemVer: $GitVersion_SemVer"
           
       - name: Add DbUp NuGet Source
         run: dotnet nuget add source --name DbUp --username DbUp --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text https://nuget.pkg.github.com/DbUp/index.json
@@ -42,7 +43,7 @@ jobs:
         working-directory: src
 
       - name: Build
-        run: dotnet build -c Release --no-restore /p:Version=$env:GitVersion_SemVer
+        run: dotnet build -c Release --no-restore /p:Version=$GitVersion_SemVer
         working-directory: src
 
       - name: Test
@@ -50,7 +51,7 @@ jobs:
         working-directory: src
 
       - name: Pack
-        run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$env:GitVersion_SemVer
+        run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GitVersion_SemVer
         working-directory: src
 
       - name: Push NuGet packages to GitHub Packages ⬆️
