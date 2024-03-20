@@ -2,12 +2,10 @@ name: CI
 
 on:
   workflow_call:
-    secrets:
-      GITHUB_TOKEN:
-        required: true
 
 permissions:
   packages: write
+  contents: write
 
 jobs:
   build:
@@ -43,7 +41,7 @@ jobs:
           
       - name: Add DbUp NuGet Source
         run: dotnet nuget add source --name DbUp --username DbUp --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text https://nuget.pkg.github.com/DbUp/index.json
-        
+
       - name: Restore
         run: dotnet restore
         working-directory: src
@@ -60,11 +58,13 @@ jobs:
         run: dotnet pack --no-build -c Release -o ../artifacts /p:Version=$GitVersion_SemVer
         working-directory: src
 
-      - name: Push NuGet packages to GitHub Packages ⬆️
-        #if: ${{ format('{0}', secrets.GITHUB_TOKEN) != '' && startsWith(github.repository, 'DbUp/') }}
-        working-directory: artifacts
-        run: dotnet nuget push *.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/DbUp/index.json"
-        
+      #- name: Push NuGet packages to GitHub Packages ⬆️
+      #  if: ${{ format('{0}', env.GITHUB_TOKEN) != '' && startsWith(github.repository, 'DbUp/') }}
+      #  working-directory: artifacts
+      #  run: dotnet nuget push *.nupkg --api-key ${{ env.GITHUB_TOKEN }} --source "https://nuget.pkg.github.com/DbUp/index.json"
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       # https://github.com/dorny/test-reporter#recommended-setup-for-public-repositories
       - name: Upload Test Results
         uses: actions/upload-artifact@v3 # upload test results
@@ -75,9 +75,8 @@ jobs:
 
       - name: Create GitHub Release
         if: ${{ (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && format('{0}', env.GITHUB_TOKEN) != '' }}
-        shell: pwsh
         working-directory: artifacts
         # Can't just use wildcard in this command due to https://github.com/cli/cli/issues/5099 so use Get-Item
-        run: gh release create --draft ${{ github.ref_name == 'main' && '' || '--prerelease' }}  --target ${{ github.ref_name }} --title $GitVersion_SemVer $GitVersion_SemVer (Get-Item dbup-core.*.nupkg)
+        run: gh release create --draft ${{ github.ref_name == 'main' && '' || '--prerelease' }}  --target ${{ github.ref_name }} --title $GitVersion_SemVer $GitVersion_SemVer dbup-*.nupkg
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
