@@ -72,8 +72,7 @@ jobs:
           name: test-results
           path: artifacts/*.trx
 
-      - name: Create GitHub Release
-        if: ${{ (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && format('{0}', env.GITHUB_TOKEN) != '' }}
+      - name: Ls
         working-directory: artifacts
         # Can't just use wildcard in this command due to https://github.com/cli/cli/issues/5099 so use Get-Item
         run: ls
