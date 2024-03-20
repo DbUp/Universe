@@ -5,6 +5,7 @@ on:
 
 permissions:
   packages: write
+  releases: write
 
 jobs:
   build:
@@ -71,11 +72,6 @@ jobs:
         with:
           name: test-results
           path: artifacts/*.trx
-
-      - name: Ls
-        working-directory: artifacts
-        # Can't just use wildcard in this command due to https://github.com/cli/cli/issues/5099 so use Get-Item
-        run: ls
 
       - name: Create GitHub Release
         if: ${{ (github.ref_name == 'main' || startsWith(github.ref_name, 'release/')) && format('{0}', env.GITHUB_TOKEN) != '' }}
