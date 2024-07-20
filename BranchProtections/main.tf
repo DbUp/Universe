@@ -44,7 +44,7 @@ resource "github_branch_protection" "main_branch" {
 
   required_status_checks {
     strict   = false
-    contexts = ["build (pull_request)"]
+    contexts = [each.value == "DbUp" ? "build" : "Build / build"]
   }
 }
 
@@ -68,6 +68,6 @@ resource "github_branch_protection" "release_branches" {
 
   required_status_checks {
     strict   = false
-    contexts = ["build (pull_request)"]
+    contexts = [each.value == "DbUp" ? "build" : "Build / build"]
   }
 }
