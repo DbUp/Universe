@@ -44,7 +44,7 @@ resource "github_branch_protection" "main_branch" {
 
   required_status_checks {
     strict   = false
-    contexts = ["build",  each.value == "DbUp" ? "Unit Tests" : "Tests"]
+    contexts = ["build (pull_request)"]
   }
 }
 
