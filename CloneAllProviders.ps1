@@ -3,6 +3,8 @@ $allProviders = Get-Content -Path AllProviders.txt
 pushd
 cd ..
 
+git clone "https://github.com/DbUp/DbUp"
+
 foreach ($provider in $allProviders) {
    if(Test-Path $provider)
    {
