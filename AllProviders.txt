@@ -4,7 +4,5 @@ dbup-mysql
 dbup-oracle
 dbup-postgresql
 dbup-redshift
-dbup-sqlce
 dbup-sqlite
-dbup-sqlite-mono
 dbup-sqlserver
