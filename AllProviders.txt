@@ -6,3 +6,4 @@ dbup-postgresql
 dbup-redshift
 dbup-sqlite
 dbup-sqlserver
+dbup-clickhouse
