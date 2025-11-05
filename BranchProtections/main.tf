@@ -71,9 +71,3 @@ resource "github_branch_protection" "release_branches" {
     contexts = [each.value == "DbUp" ? "build" : "Build / build"]
   }
 }
-
-resource "github_repository_dependabot_security_updates" "example" {
-  for_each            = local.repositories
-  repository  = each.value
-  enabled     = true
-}
