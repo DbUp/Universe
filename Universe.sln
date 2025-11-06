@@ -64,6 +64,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dbup-clickhouse", "..\dbup-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\dbup-clickhouse\src\Tests\Tests.csproj", "{0E7880FD-0148-4714-A001-E15DE4039EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scratch", "Scratch\Scratch.csproj", "{D5F36E2C-8C3F-42F7-B9AB-5E8E2F0C77EE}"
+EndProject
 
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,10 @@ Global
 		{0E7880FD-0148-4714-A001-E15DE4039EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7880FD-0148-4714-A001-E15DE4039EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7880FD-0148-4714-A001-E15DE4039EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F36E2C-8C3F-42F7-B9AB-5E8E2F0C77EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F36E2C-8C3F-42F7-B9AB-5E8E2F0C77EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F36E2C-8C3F-42F7-B9AB-5E8E2F0C77EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F36E2C-8C3F-42F7-B9AB-5E8E2F0C77EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{1775939E-A46F-43BC-BD85-43721CA9C757} = {37DA6569-6D62-499D-B96E-B027880BF981}
