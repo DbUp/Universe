@@ -14,7 +14,7 @@ jobs:
     env:
       DOTNET_NOLOGO: true
       DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true # Avoid pre-populating the NuGet package cache
-      ASSENTNONINTERACTIVE: true
+      AssentNonInteractive: true
 
     steps:
       - uses: actions/checkout@v3
